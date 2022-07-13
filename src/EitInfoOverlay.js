@@ -9,20 +9,22 @@ export class EitInfoOverlay extends LitElement {
                 display: block;
                 position: relative;
             }
-            .overlay {
+            #overlay {
                 display: none;
                 position: absolute;
+                opacity: 0;
                 background-color: beige;
                 padding: 1em;
                 border: 1px solid #ddd;
                 box-shadow: 0 0 10px rgba(0,0,0,0.2);
                 width: 250px;
+                transition: ease 0.5s;
+                transition-property: transform, opacity;
+                transform: translateY(-10px);
             }
-            .opened {
-                display: block;
-            }
-            ::slotted(div) {
-                font-family: sans-serif;
+            #overlay.opened {
+                opacity: 1;
+                transform: translateY(0);
             }
         `
     ];
@@ -35,14 +37,13 @@ export class EitInfoOverlay extends LitElement {
 
     constructor() {
         super();
-        console.log('constructor ejecutado...');
         this.opened = false;
     }
 
     render() {
         return html`
           <a href="#" @click="${this.toggle}">
-            <slot name="trigger"></slot>
+            ${icon}
           </a>
           <div class="overlay ${this.opened ? "opened" : ""}">
             <slot name="menu"></slot>
